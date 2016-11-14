@@ -1,0 +1,28 @@
+---
+- name: "add {{ ansible_user }} to docker group"
+  become: yes
+  user:
+    name="{{ ansible_user }}"
+    state=present
+    groups=docker
+    append=yes
+  tags:
+    - "install"
+    - "docker"
+
+- name: Make sure the docker service is running
+  become: yes
+  service: name=docker state=started
+
+- name: Login to dockerhub registry
+  docker_login:
+    registry_url: "https://hub.docker.com"
+    username: "{{ agentvi.dockerhub_user }}"
+    password: "{{ agentvi.dockerhub_password }}"
+    email: "{{ agentvi.dockerhub_email }}"
+  register: result
+  until: result|succeeded
+  retries: 5
+  delay: 30
+  tags:
+    - login
