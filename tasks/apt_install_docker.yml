@@ -1,6 +1,5 @@
 ---
 - name: Install AUFS storage driver support packages
-  become: yes
   apt: name={{ item }} state=present
   with_items: 
     - "linux-image-extra-{{ ansible_kernel }}"
@@ -10,7 +9,6 @@
     - "docker"
 
 - name: "Install docker + reqs"
-  become: yes
   apt: name="{{ item }}" update_cache=yes state=latest
   with_items:
     - docker-engine
@@ -19,18 +17,25 @@
     - apt
 
 - name: "Install docker-py"
-  become: yes
   pip:
     name: docker-py
     state: present
-    version: 1.7.0
+    version: "{{ docker_py_version }}"
   tags:
     - pip
 
 - name: Install docker-engine
-  become: yes
   apt: name="docker-engine={{ docker_engine_version }}-0~{{ ansible_distribution_release }}" state=installed
   tags:
     - "install"
     - "docker"
+
+- name: "add {{ ansible_user }} to docker group"
+  become: yes
+  user:
+    name="{{ ansible_user }}"
+    groups=docker
+    append=yes
+  tags:
+    - service
 

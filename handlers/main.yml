@@ -1,2 +1,13 @@
 ---
 # handlers file for docker-engine
+#- name: Reload Systemd
+  #become: yes
+  #systemd: name=docker daemon_reload=yes
+
+- name: Reload Systemd
+  become: yes
+  command: systemctl daemon-reload
+
+- name: Restart Docker
+  become: yes
+  service: name=docker state=restarted enabled=true

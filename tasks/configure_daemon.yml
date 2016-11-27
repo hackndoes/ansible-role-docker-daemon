@@ -1,28 +1,23 @@
 ---
-- name: "add {{ ansible_user }} to docker group"
-  become: yes
-  user:
-    name="{{ ansible_user }}"
-    state=present
-    groups=docker
-    append=yes
-  tags:
-    - "install"
-    - "docker"
+- name: Regather facts to eliminate sudo
+  setup:
 
-- name: Make sure the docker service is running
-  become: yes
-  service: name=docker state=started
-
-- name: Login to dockerhub registry
-  docker_login:
-    registry_url: "https://hub.docker.com"
-    username: "{{ agentvi.dockerhub_user }}"
-    password: "{{ agentvi.dockerhub_password }}"
-    email: "{{ agentvi.dockerhub_email }}"
-  register: result
-  until: result|succeeded
-  retries: 5
-  delay: 30
+- name: Create .docker directory for user {{ ansible_user }}
+  file:
+    path: "{{ ansible_user_dir }}/.docker"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
   tags:
-    - login
+    - auth
+
+- name: Copy auth for registries
+  template:
+    src: config.json.j2
+    dest: "{{ ansible_env.HOME }}/.docker/config.json"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
+  tags:
+    - auth
