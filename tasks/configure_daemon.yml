@@ -9,8 +9,6 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755
-  tags:
-    - auth
 
 - name: Copy auth for registries
   template:
@@ -19,10 +17,4 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0644
-  notify:
-    - Reload Systemd
-    - Restart Docker
-  tags:
-    - auth
     
-- meta: flush_handlers
