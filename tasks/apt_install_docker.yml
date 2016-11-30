@@ -30,6 +30,9 @@
     - "install"
     - "docker"
 
+- name: Start Docker Service
+  service: name=docker state=started
+
 - name: "add {{ ansible_user }} to docker group"
   become: yes
   user:

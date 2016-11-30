@@ -24,3 +24,5 @@
     - Restart Docker
   tags:
     - auth
+    
+- meta: flush_handlers
