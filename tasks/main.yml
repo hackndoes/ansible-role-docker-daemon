@@ -9,5 +9,5 @@
   tags:
     - dockerinstall
 - include: configure_daemon.yml
-    tags: 
-    - dockerconfig
+  tags: 
+  - dockerconfig
