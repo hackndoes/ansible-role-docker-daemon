@@ -27,8 +27,12 @@
     groups=docker
     append=yes
 
+- debug: var=ansible_user
+
 - name: Gather Facts
   setup: 
+
+- debug: var=ansible_user
 
 - name: Check Docker is Running
   command: docker ps
