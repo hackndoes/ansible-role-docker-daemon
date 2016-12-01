@@ -1,17 +1,20 @@
 ---
 - name: Install AUFS storage driver support packages
+  become: yes
   apt: name={{ item }} state=present
   with_items: 
     - "linux-image-extra-{{ ansible_kernel }}"
     - "linux-image-extra-virtual"
 
 - name: "Install docker + reqs"
+  become: yes
   apt: name="{{ item }}" update_cache=yes state=latest
   with_items:
     - docker-engine
     - python-pip
 
 - name: "Install docker-py"
+  become: yes
   pip:
     name: docker-py
     state: present
@@ -20,12 +23,14 @@
 # requests 2.12.2 currently latest has issue with pulling images...
 # fails with "no host in request URL"
 - name: "Install requests version 2.12.1"
+  become: yes
   pip:
     name: requests
     state: present
     version: "{{ docker_requests_version }}"
 
 - name: Install docker-engine
+  become: yes
   apt: name="docker-engine={{ docker_engine_version }}-0~{{ ansible_distribution_release }}" state=installed
 
 - name: "add {{ ansible_user }} to docker group"
@@ -35,16 +40,3 @@
     groups=docker
     append=yes
 
-- debug: var=ansible_user
-
-- name: Gather Facts
-  setup: 
-
-- debug: var=ansible_user
-
-- name: Check Docker is Running
-  command: docker ps
-  register: result
-
-- name: print docker ps output
-  debug: msg="{{ result.stdout }}"
