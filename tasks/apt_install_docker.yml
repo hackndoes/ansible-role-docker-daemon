@@ -34,11 +34,3 @@
     groups=docker
     append=yes
 
-- name: "logoff/logon user {{ ansible_user }} for docker group to take effect"
-  command: logout
-  async: 0
-  poll: 0
-  ignore_errors: yes
-
-- name: wait for server to be available again
-  local_action: wait_for host="{{ inventory_hostname }}" state=started
