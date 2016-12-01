@@ -17,6 +17,14 @@
     state: present
     version: "{{ docker_py_version }}"
 
+# requests 2.12.2 currently latest has issue with pulling images...
+# fails with "no host in request URL"
+- name: "Install requests version 2.12.1"
+  pip:
+    name: requests
+    state: present
+    version: "{{ docker_requests_version }}"
+
 - name: Install docker-engine
   apt: name="docker-engine={{ docker_engine_version }}-0~{{ ansible_distribution_release }}" state=installed
 
