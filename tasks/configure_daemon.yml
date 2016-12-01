@@ -1,6 +1,6 @@
 ---
-- name: Regather facts to eliminate sudo
-  setup:
+#- name: Regather facts to eliminate sudo
+  #setup:
 
 - name: Check Docker is Running
   command: docker ps
