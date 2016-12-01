@@ -1,11 +1,9 @@
 ---
 - name: Update APT Cache
-  become: yes
   apt:
     update_cache: yes
 
 - name: Install Requirements
-  become: yes
   apt:
     name: "{{ item }}"
     state: latest
@@ -14,28 +12,23 @@
     - "ca-certificates"
 
 - name: "Add apt key of the latest repo"
-  become: yes
   apt_key:
     keyserver: "{{ docker_keyserver }}"
     id: "{{ docker_repo_key }}"
 
 - name: "Add repository"
-  become: yes
   apt_repository:
     repo: 'deb {{ docker_repo }} ubuntu-{{ ansible_distribution_release }} main'
     state: present
 
 - name: "Purge unnedded packadges"
-  become: yes
   apt: name="{{ item }}" state=absent purge=yes
   with_items:
     - lxc-docker
 
 - name: "Verify that apt is pulling from the right repository"
-  become: yes
   command: apt-cache policy docker-engine
 
 - name: "Update apt cache for new repo to kick in"
-  become: yes
   apt:
     update_cache: yes

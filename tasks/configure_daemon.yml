@@ -10,7 +10,7 @@
 - name: Copy auth for registries
   template:
     src: config.json.j2
-    dest: "{{ ansible_env.HOME }}/.docker/config.json"
+    dest: "{{ ansible_user_dir }}/.docker/config.json"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0644
