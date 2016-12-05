@@ -1,4 +1,11 @@
 ---
+- name: Check if {{ ansible_user }} can run docker commands
+  shell: docker ps
+  register: result
+  ignore_errors: yes
+
+- debug: var=result.stdout
+
 - name: Create .docker directory for user {{ ansible_user }}
   file:
     path: "{{ ansible_user_dir }}/.docker"
