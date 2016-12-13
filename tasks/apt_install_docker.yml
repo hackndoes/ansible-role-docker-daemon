@@ -5,10 +5,12 @@
     - "linux-image-extra-{{ ansible_kernel }}"
     - "linux-image-extra-virtual"
 
+- name: Install docker-engine
+  apt: name="docker-engine={{ docker_engine_version }}-0~{{ ansible_distribution_release }}" state=installed
+
 - name: "Install docker + reqs"
   apt: name="{{ item }}" update_cache=yes state=latest
   with_items:
-    - docker-engine
     - python-pip
 
 - name: "Install docker-py"
@@ -24,9 +26,11 @@
     name: requests
     state: present
     version: "{{ docker_requests_version }}"
-
-- name: Install docker-engine
-  apt: name="docker-engine={{ docker_engine_version }}-0~{{ ansible_distribution_release }}" state=installed
+    
+- name: Upgrade pyasn version
+  pip:
+    name: pyasn1
+    state: latest
 
 - name: "add {{ ansible_user }} to docker group"
   user:
