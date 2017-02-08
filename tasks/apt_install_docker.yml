@@ -38,3 +38,5 @@
     groups=docker
     append=yes
 
+- name: Users - Force new connection so user group takes effect
+  local_action: file path="{{ control_persist_path }}" state=absent

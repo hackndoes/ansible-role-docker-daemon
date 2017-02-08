@@ -6,3 +6,4 @@ docker_repo: http://apt.dockerproject.org/repo
 docker_engine_version: "1.12.3"
 docker_py_version: "1.10.6"
 docker_requests_version: "2.12.1"
+control_persist_path: "{{ ansible_user_dir }}/.ansible/cp/ansible-ssh-{{ inventory_hostname }}-22-{{ ansible_user_id }}"
