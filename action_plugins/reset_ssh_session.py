@@ -23,9 +23,13 @@ class ActionModule(ActionBase):
 
         if os.path.exists(cp_path):
             os.remove(cp_path)
-            return dict(changed=True, msg="Successfully removed {}".format(cp_path))
+            result['changed'] = True
+            result['msg'] = "Successfully removed {}".format(cp_path)
         else:
-            return dict(changed=False, msg="{} doesn't exist".format(cp_path))
+            result['changed'] = False
+            result['msg'] = "{} doesn't exist".format(cp_path)
+
+        return result
 
 
 
