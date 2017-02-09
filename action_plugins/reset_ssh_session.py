@@ -21,11 +21,11 @@ class ActionModule(ActionBase):
             ansible_user_id = task_vars.get('ansible_user_id')
             cp_path = "{}/.ansible/cp/ansible-ssh-{}-22-{}".format(ansible_user_dir, inventory_hostname, ansible_user_id)
 
-        if os.path.isfile(cp_path):
+        if os.path.exists(cp_path):
             os.remove(cp_path)
-            return dict(changed=True)
+            return dict(changed=True, msg="Successfully removed {}".format(cp_path))
         else:
-            return dict(changed=False)
+            return dict(changed=False, msg="{} doesn't exist".format(cp_path))
 
 
 
