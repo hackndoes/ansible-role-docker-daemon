@@ -15,6 +15,7 @@
     mode: 0755
 
 - name: Copy auth for registries
+  when: dockerhub_user is defined
   template:
     src: config.json.j2
     dest: "{{ ansible_user_dir }}/.docker/config.json"
