@@ -31,9 +31,13 @@
 #- name: "Add apt key of the latest repo"
   #apt_key:
     #url: "{{ gpg_key_url }}"
+  
 - name: Download GPG key for docker regpository
-  shell: "curl {{ gpg_key_url }} > /tmp/gpgkey"
-
+  get_url:
+    url: "{{ gpg_key_url }}"
+    dest: /tmp/gpgkey
+    validate_certs: "{{ ansible_python_version | version_compare('2.7.9', '>=') }}"
+    
 - name: Add GPG key for docker repository
   become: yes
   command: apt-key add /tmp/gpgkey
