@@ -1,30 +1,41 @@
 ---
-- name: Update APT Cache
+
+- name: Uninstall older versions
   apt:
-    update_cache: yes
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - docker
+    - docker-engine
+    - docker.io
+    - lxc-docker
+
+- name: Install kernel headers for aufs support
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "linux-image-extra-{{ ansible_kernel }}"
+    - linux-image-extra-virtual
 
 - name: Install Requirements
   apt:
     name: "{{ item }}"
     state: latest
   with_items:
-    - "apt-transport-https"
-    - "ca-certificates"
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
 
 - name: "Add apt key of the latest repo"
   apt_key:
-    keyserver: "{{ docker_keyserver }}"
-    id: "{{ docker_repo_key }}"
+    url: "{{ gpg_key_url }}"
 
 - name: "Add repository"
   apt_repository:
-    repo: 'deb {{ docker_repo }} ubuntu-{{ ansible_distribution_release }} main'
+    repo: 'deb {{ docker_repo }} {{ ansible_distribution_release }} stable'
     state: present
-
-- name: "Purge unnedded packadges"
-  apt: name="{{ item }}" state=absent purge=yes
-  with_items:
-    - lxc-docker
 
 - name: "Verify that apt is pulling from the right repository"
   command: apt-cache policy docker-engine
