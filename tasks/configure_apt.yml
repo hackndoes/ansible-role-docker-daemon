@@ -31,8 +31,14 @@
 #- name: "Add apt key of the latest repo"
   #apt_key:
     #url: "{{ gpg_key_url }}"
-- name: "Add apt key of the latest repo"
-  command: "curl -fsSL {{ gpg_key_url }} | sudo apt-key add -"
+- name: Download GPG key for docker regpository
+  get_url:
+    url: {{ gpg_key_url }}"
+    dest: "/tmp/gpgkey"
+
+- name: Add GPG key for docker repository
+  become: yes
+  command: apt-key add /tmp/gpgkey
 
 - name: "Add repository"
   apt_repository:
