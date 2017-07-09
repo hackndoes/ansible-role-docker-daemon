@@ -33,7 +33,7 @@
     #url: "{{ gpg_key_url }}"
 - name: Download GPG key for docker regpository
   get_url:
-    url: {{ gpg_key_url }}"
+    url: "{{ gpg_key_url }}"
     dest: "/tmp/gpgkey"
 
 - name: Add GPG key for docker repository
