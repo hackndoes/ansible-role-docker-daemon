@@ -28,9 +28,11 @@
     - curl
     - software-properties-common
 
+#- name: "Add apt key of the latest repo"
+  #apt_key:
+    #url: "{{ gpg_key_url }}"
 - name: "Add apt key of the latest repo"
-  apt_key:
-    url: "{{ gpg_key_url }}"
+  command: "curl -fsSL {{ gpg_key_url }} | sudo apt-key add -"
 
 - name: "Add repository"
   apt_repository:
