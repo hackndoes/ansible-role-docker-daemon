@@ -32,9 +32,7 @@
   #apt_key:
     #url: "{{ gpg_key_url }}"
 - name: Download GPG key for docker regpository
-  get_url:
-    url: "{{ gpg_key_url }}"
-    dest: "/tmp/gpgkey"
+  command: "curl {{ gpg_key_url }} > /tmp/gpgkey"
 
 - name: Add GPG key for docker repository
   become: yes
