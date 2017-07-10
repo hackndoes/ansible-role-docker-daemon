@@ -32,15 +32,18 @@
     - curl
     - software-properties-common
 
-- debug:
-    msg: "ansible_python_version is >= 2.7.9 {{ ansible_python_version | version_compare('2.7.9', '>=') }}"
-    verbosity: 1
+#- debug:
+    #msg: "ansible_python_version is >= 2.7.9 {{ ansible_python_version | version_compare('2.7.9', '>=') }}"
+    #verbosity: 1
+
+#- name: "Add apt key of the latest repo"
+  #apt_key:
+    #url: "{{ gpg_key_url }}"
+    #state: present
+    #validate_certs: "{{ ansible_python_version | version_compare('2.7.9', '>=') }}"
 
 - name: "Add apt key of the latest repo"
-  apt_key:
-    url: "{{ gpg_key_url }}"
-    state: present
-    validate_certs: "{{ ansible_python_version | version_compare('2.7.9', '>=') }}"
+  shell: "/usr/bin/curl {{ gpg_key_url }} | sudo /usr/bin/apt-key add -"
   
 - name: "Add repository"
   apt_repository:
