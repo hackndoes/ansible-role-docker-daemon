@@ -1,18 +1,25 @@
 ---
-- name: Check if {{ ansible_user }} can run docker commands
-  shell: docker ps
-  register: result
-  ignore_errors: yes
-
-- debug: var=result.stdout
+- debug:
+    var: ansible_user
+    verbosity: 1
 
 - name: Create .docker directory for user {{ ansible_user }}
+  become: yes
   file:
     path: "{{ ansible_user_dir }}/.docker"
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755
+
+- name: Check if {{ ansible_user }} can run docker commands
+  shell: docker ps
+  register: result
+  ignore_errors: yes
+
+- debug:
+    var: result.stdout
+    verbosity: 1
 
 - name: Copy auth for registries
   when: dockerhub_user is defined
