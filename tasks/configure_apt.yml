@@ -14,6 +14,18 @@
     - docker.io
     - lxc-docker
 
+- name: Get currently installed docker-ce version
+  changed_when: False
+  ignore_errors: yes
+  register: docker_version
+  command: docker --version
+
+- name: Remove docker-ce if not in required version
+  apt:
+    name: docker-ce
+    state: absent
+  when: docker_version|failed or docker_version.stdout.find(docker_py_version) < 0
+
 - name: Install kernel headers for aufs support
   apt:
     name: "{{ item }}"
