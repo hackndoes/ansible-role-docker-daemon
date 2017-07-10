@@ -39,7 +39,8 @@
 - name: "Add apt key of the latest repo"
   apt_key:
     url: "{{ gpg_key_url }}"
-    validate_certs: "no"
+    state: present
+    validate_certs: "{{ ansible_python_version | version_compare('2.7.9', '>=') }}"
   
 - name: "Add repository"
   apt_repository:
