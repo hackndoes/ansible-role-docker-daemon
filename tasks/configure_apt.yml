@@ -32,20 +32,11 @@
     - curl
     - software-properties-common
 
-#- name: "Add apt key of the latest repo"
-  #apt_key:
-    #url: "{{ gpg_key_url }}"
-  
-- name: Download GPG key for docker regpository
-  get_url:
+- name: "Add apt key of the latest repo"
+  apt_key:
     url: "{{ gpg_key_url }}"
-    dest: /tmp/gpgkey
     validate_certs: "{{ ansible_python_version | version_compare('2.7.9', '>=') }}"
-    
-- name: Add GPG key for docker repository
-  become: yes
-  command: apt-key add /tmp/gpgkey
-
+  
 - name: "Add repository"
   apt_repository:
     repo: 'deb {{ docker_repo }} {{ ansible_distribution_release }} stable'
