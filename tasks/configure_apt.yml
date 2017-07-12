@@ -21,11 +21,12 @@
   command: docker --version
 
 - debug:
-    var: item
+    var: docker_version
     verbosity: 1
-  with_items:
-    - docker_version
-    - docker_engine_version
+
+- debug:
+    var: docker_engine_version
+    verbosity: 1
 
 - name: Remove docker-ce if not in required version
   apt:
