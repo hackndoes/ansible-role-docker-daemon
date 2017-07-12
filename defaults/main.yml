@@ -4,7 +4,7 @@ docker_keyserver: hkp://p80.pool.sks-keyservers.net:80
 docker_repo_key: "58118E89F3A912897C070ADBF76221572C52609D"
 docker_repo: https://download.docker.com/linux/ubuntu
 gpg_key_url: https://download.docker.com/linux/ubuntu/gpg
-docker_engine_version: 17.06.0
+docker_engine_version: 17.03.2
 docker_py_version: 1.10.6
 docker_requests_version: 2.12.1
 #control_persist_path: "{{ ansible_user_dir }}/.ansible/cp/ansible-ssh-{{ inventory_hostname }}-22-{{ ansible_user_id }}"
