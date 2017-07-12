@@ -13,6 +13,7 @@
     mode: 0755
 
 - name: Check if {{ ansible_user }} can run docker commands
+  changed_when: False
   shell: docker ps
   register: result
   ignore_errors: yes

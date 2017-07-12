@@ -20,6 +20,13 @@
   register: docker_version
   command: docker --version
 
+- debug:
+    msg: "{{ item }}"
+    verbosity: 1
+  with_items:
+    - docker_version
+    - docker_py_version
+
 - name: Remove docker-ce if not in required version
   apt:
     name: docker-ce
