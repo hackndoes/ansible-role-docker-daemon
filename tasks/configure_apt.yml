@@ -51,6 +51,8 @@
     - ca-certificates
     - curl
     - software-properties-common
+    - "linux-image-extra-{{ ansible_kernel }}"
+    - linux-image-extra-virtual
 
 #- debug:
     #msg: "ansible_python_version is >= 2.7.9 {{ ansible_python_version | version_compare('2.7.9', '>=') }}"
